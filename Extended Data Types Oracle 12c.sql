@@ -5,7 +5,10 @@
 -- Version: 	0.0
 -- Phone : +4915775148443
 -- Email: hus244@gmail.com
-
+ -- Till Oracle 11g character data types like varchar2,
+ -- nvarchar2 supports only 4000 bytes where as RAW supports only 2000 bytes.
+ -- From Oracle 12c, Oracle has extended these datatypes length to 32Kbytes (32767 bytes).
+ -- For the extended datatype support we need to configure it.
 1- 
 sqlplus / as sysdba
 2- 
