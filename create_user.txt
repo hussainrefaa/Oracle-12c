@@ -1,0 +1,22 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2016
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: hus244@gmail.com
+
+1- conn / as sysdba
+2-
+create user c##scott identified by tiger container=all;
+3-
+grant connect,resource to c##scott;
+4-
+grant create table 
+to c##scott
+/ 
+
+alter user c##scott
+quota unlimited on users
+quota unlimited on system
+ /
