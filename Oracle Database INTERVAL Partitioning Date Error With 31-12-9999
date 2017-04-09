@@ -1,0 +1,54 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+
+-- Starting with the following table structure:
+CREATE TABLE interval_test
+(
+  data_from_date   DATE NOT NULL
+, data_to_date     DATE
+, business_key     NUMBER
+)
+PARTITION BY RANGE (data_to_date) INTERVAL(NUMTOYMINTERVAL(1, 'MONTH'))
+(
+  PARTITION p_interval_test_0 VALUES LESS THAN (TO_DATE('2000-01-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS', 'NLS_CALENDAR=GREGORIAN'))
+)
+ENABLE ROW MOVEMENT
+/
+
+-- to get a view of the data for a point in time.
+EXPLAIN PLAN FOR 
+SELECT * 
+FROM interval_test 
+WHERE DATE '2001-01-01' BETWEEN data_from_date AND data_to_date
+/
+
+-- 
+SELECT COUNT(*) FROM dba_tab_partitions WHERE table_name = 'INTERVAL_TEST';
+
+ORA-01841: (full) year must be between -4713 and +9999, and not be 0
+
+-- Truncate the month and minus 1
+
+, partition_column AS (TRUNC(data_to_date, 'MM') - 1)
+-- Minus 31
+, partition_column AS (data_to_date -31)
+
+
+---specify but that is used to partition 
+filter("DATA_FROM_DATE"<=TO_DATE(' 2001-01-01 00:00:00',
+'syyyy-mm-dd hh24:mi:ss') AND "DATA_TO_DATE">=TO_DATE(' 2001-01-01
+00:00:00', 'syyyy-mm-dd hh24:mi:ss') AND
+"INTERVAL_TEST"."PARTITION_COLUMN">=TRUNC(TO_DATE(' 2001-01-01
+00:00:00', 'syyyy-mm-dd hh24:mi:ss'),'IQ'))
+
+-- Here are some of the virtual columns that do partition prune however, might not solve the original issue.
+, partition_column AS (TRUNC(data_to_date, 'IQ'))
+
+, partition_column AS (TRUNC(data_to_date)) 
