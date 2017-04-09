@@ -1,0 +1,55 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+DROP TABLE interval_test PURGE
+/
+CREATE TABLE interval_test
+(
+  data_from_date   DATE NOT NULL
+, data_to_date     DATE
+, business_key     NUMBER
+, partition_column AS (TRUNC(data_to_date, 'MM') - 1) -- change this
+)
+PARTITION BY RANGE (partition_column) INTERVAL(NUMTOYMINTERVAL(1, 'MONTH'))
+(
+  PARTITION p_interval_test_0 VALUES LESS THAN (TO_DATE('2000-01-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS', 'NLS_CALENDAR=GREGORIAN'))
+)
+ENABLE ROW MOVEMENT
+/
+ 
+INSERT INTO interval_test (data_from_date, data_to_date, business_key)
+SELECT   DATE '2000-01-01' + (ROWNUM)     data_from_date
+,        DATE '2000-01-01' + (ROWNUM + 1) data_to_date
+,        ROWNUM                           table_key
+FROM     dual
+CONNECT BY LEVEL <= 365
+/
+ 
+COMMIT
+/
+ 
+ 
+BEGIN
+	Sys.DBMS_Stats.Gather_Table_Stats(
+		    Ownname          => null
+		,   Tabname          => 'interval_test'
+		,   Estimate_Percent => 100
+		,   Degree           => Sys.DBMS_Stats.Auto_Degree
+		,   Granularity      => 'AUTO'
+		,   Cascade          => Sys.DBMS_Stats.Auto_Cascade
+		,   Force            => true
+		);
+END;
+/
+ 
+ 
+EXPLAIN PLAN FOR SELECT * FROM interval_test WHERE DATE '2001-01-01' BETWEEN data_from_date AND data_to_date
+/
+SELECT plan_table_output FROM TABLE(dbms_xplan.display(format=>'ALL -PROJECTION'))
+/
