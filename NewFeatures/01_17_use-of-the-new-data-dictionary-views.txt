@@ -1,0 +1,28 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlplus "/as sysdba"
+
+select name, con_id from v$pdbs;
+
+column file_name format a50
+select file_name, con_id from cdb_data_files order by con_id;
+
+column file_name format a50
+select file_name from dba_data_files;
+
+alter session set container=source_pdb;
+
+column file_name format a50
+select file_name, con_id from cdb_data_files;
+
+alter session set container=target_pdb;
+
+column file_name format a50
+select file_name, con_id from cdb_data_files;

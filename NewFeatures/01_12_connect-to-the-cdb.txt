@@ -1,0 +1,38 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+ps -eaf | grep -i pmon
+
+export ORACLE_SID=orcl
+
+sqlplus "/as sysdba"
+
+show con_name
+
+show con_id
+
+quit;
+
+sqlplus sys/oracle@localhost:1521/orcl as sysdba
+
+show con_name
+
+show con_id
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlplus salesadm/password@localhost:1521/salespdb
+
+column table_name format a30
+column inmemory format a10
+column inmemory_priority format a10
+select table_name, inmemory, inmemory_priority from user_tables;
+
+ALTER TABLE sales_data INMEMORY PRIORITY LOW;
+
+ALTER TABLE sales_data INMEMORY PRIORITY CRITICAL;
+
+column table_name format a30
+column inmemory format a10
+column inmemory_priority format a10
+select table_name, inmemory, inmemory_priority from user_tables;
+

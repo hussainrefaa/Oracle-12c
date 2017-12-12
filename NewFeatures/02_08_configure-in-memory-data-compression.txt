@@ -1,0 +1,27 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlplus salesadm/password@localhost:1521/salespdb
+
+column table_name format a30
+column inmemory_compression format a30
+select table_name, inmemory_compression from user_tables;
+
+ALTER TABLE sales_data INMEMORY MEMCOMPRESS FOR CAPACITY LOW;
+
+column table_name format a30
+column inmemory_compression format a30
+select table_name, inmemory_compression from user_tables;
+
+ALTER TABLE sales_data INMEMORY MEMCOMPRESS FOR QUERY HIGH;
+
+column table_name format a30
+column inmemory_compression format a30
+select table_name, inmemory_compression from user_tables;
+

@@ -1,0 +1,32 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+
+sqlplus demo_pdb_admin/password@localhost:1521/demo_pdb
+
+create index test_table_part_global1 on test_table_part(id);
+
+select status , orphaned_entries
+from user_indexes
+where index_name = 'TEST_TABLE_PART_GLOBAL1';
+
+alter table trans drop partition p2 UPDATE INDEXES;
+
+select status , orphaned_entries
+from user_indexes
+where index_name = 'TEST_TABLE_PART_GLOBAL1';
+
+explain plan for select count(*) from test_table_part where id = 1;
+select plan_table_output from table(dbms_xplan.display);
+
+alter index test_table_part_global1 coalesce cleanup;
+
+select status , orphaned_entries
+from user_indexes
+where index_name = 'TEST_TABLE_PART_GLOBAL1';
+

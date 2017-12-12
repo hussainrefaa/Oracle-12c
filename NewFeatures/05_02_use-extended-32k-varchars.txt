@@ -1,0 +1,26 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+conn demo_pdb_admin/password@localhost:1521/demo_pdb
+
+create table demo_table (varchar_col varchar(32000), clob_col clob);
+
+insert into demo_table values ( rpad('*',32000,'*'), rpad('*',32000,'*') );
+insert into demo_table values ( rpad('*',32000,'*'), rpad('*',32000,'*') );
+insert into demo_table values ( rpad('*',32000,'*'), rpad('*',32000,'*') );
+insert into demo_table values ( rpad('*',32000,'*'), rpad('*',32000,'*') );
+commit;
+
+select length(varchar_col), length(clob_col) from demo_table;
+
+SET AUTOTRACE ON STAT
+select clob_col from demo_table;
+
+SET AUTOTRACE ON STAT
+select varchar_col from demo_table;
+

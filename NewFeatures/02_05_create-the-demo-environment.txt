@@ -1,0 +1,27 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+CREATE PLUGGABLE DATABASE salespdb 
+ADMIN USER salesadm IDENTIFIED BY password
+ROLES = (dba)
+DEFAULT TABLESPACE sales 
+DATAFILE '/oradata/orcl/salespdb/sales01.dbf' SIZE 50M AUTOEXTEND ON
+PATH_PREFIX = '/oradata/orcl/salespdb/'
+FILE_NAME_CONVERT=('/oradata/orcl/pdbseed/','/oradata/orcl/salespdb/');
+
+select con_id, name, open_mode from v$pdbs;
+
+ALTER PLUGGABLE DATABASE salespdb OPEN READ WRITE;
+
+connect salesadm/password@localhost:1521/salespdb 
+
+show con_name
+
+alter user salesadm quota unlimited on sales;
+
+@/home/oracle/sales_data.sql

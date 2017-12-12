@@ -1,0 +1,56 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+
+sqlplus demo_pdb_admin/password@localhost:1521/demo_pdb
+
+create table test_table_part
+(
+  id    NUMBER,
+  data  VARCHAR2(30)
+)
+partition by range(id)
+(
+  partition p1 values less than(2),
+  partition p2 values less than(3),
+  partition p3 values less than(4),
+  partition p4 values less than(10)
+);
+
+INSERT INTO test_table_part SELECT TRUNC(DBMS_RANDOM.value(1,5)), dbms_random.string('U', 30)
+FROM dual
+CONNECT BY level <= 10000;
+
+EXEC DBMS_STATS.gather_table_stats(USER, 'test_table_part');
+
+column table_name FORMAT A30
+column partition_name FORMAT A30
+SELECT table_name, partition_name, num_rows
+FROM   user_tab_partitions
+ORDER BY 1,2;
+
+INSERT INTO test_table_part SELECT TRUNC(DBMS_RANDOM.value(1,5)), dbms_random.string('U', 30)
+FROM dual
+CONNECT BY level <= 10000;
+
+
+-------- here open another sesseion
+sqlplus demo_pdb_admin/password@localhost:1521/demo_pdb
+
+-- will return error
+ALTER TABLE test_table_part MOVE PARTITION p4 TABLESPACE MY_TBS UPDATE INDEXES;
+
+-- by online option will be don without errors
+ALTER TABLE test_table_part MOVE PARTITION p4 ONLINE TABLESPACE MY_TBS UPDATE INDEXES;
+
+INSERT INTO test_table_part SELECT TRUNC(DBMS_RANDOM.value(1,5)), dbms_random.string('U', 30)
+FROM dual
+CONNECT BY level <= 10000;
+
+commit;
+

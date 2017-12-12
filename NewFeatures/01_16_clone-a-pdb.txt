@@ -1,0 +1,32 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlplus "/as sysdba"
+
+
+CREATE PLUGGABLE DATABASE source_pdb
+ADMIN USER source_pdb_admin IDENTIFIED BY password
+ROLES = (dba)
+DEFAULT TABLESPACE my_tbs 
+DATAFILE '/oradata/orcl/source_pdb/mytbs01.dbf' SIZE 50M AUTOEXTEND ON
+FILE_NAME_CONVERT=('/oradata/orcl/pdbseed/','/oradata/orcl/source_pdb/');
+
+sqlplus "/as sysdba"
+
+show con_name
+
+create pluggable database target_pdb from source_pdb FILE_NAME_CONVERT=('/oradata/orcl/source_pdb/','/oradata/orcl/target_pdb/');
+ alter pluggable database target_pdb open;  
+
+select name from v$pdbs;
+
+alter session set container=target_pdb;
+
+select file_name from dba_data_files;
+

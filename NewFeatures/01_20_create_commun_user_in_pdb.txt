@@ -1,0 +1,42 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlpus "/as sysdba"
+
+create user c##dba_user identified by password;
+
+quit;
+sqlplus c##dba_user/password@localhost:1521/orcl
+
+sqlplus c##dba_user/password@localhost:1521/demo_pdb1
+
+sqlplus my_pdb_admin/password@localhost:1521/demo_pdb1
+
+grant create session to c##dba_user;
+
+sqlplus c##dba_user/password@localhost:1521/demo_pdb1
+
+sqlplus c##dba_user/password@localhost:1521/demo_pdb2
+
+quit
+sqlplus "/as sysdba"
+
+grant create session to c##dba_user container=all;
+
+
+quit;
+sqlplus c##dba_user/password@localhost:1521/demo_pdb2
+
+
+alter pluggable database demo_pdb1 close;
+alter pluggable database demo_pdb2 close;
+
+drop pluggable database demo_pdb1 including datafiles;
+drop pluggable database demo_pdb2 including datafiles;
+
+drop user c##dba_user;

@@ -1,0 +1,39 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+
+sqlplus demo_pdb_admin/password@localhost:1521/demo_pdb
+
+alter system set temp_undo_enabled = false;
+
+show parameter temp_undo_enabled
+
+CREATE GLOBAL TEMPORARY TABLE my_temp_table (
+column1    NUMBER,
+column2    NUMBER
+)    ON COMMIT DELETE ROWS;
+
+insert into my_temp_table(column1,column2) select object_id,object_id from all_objects where rownum < 90001;
+
+update my_temp_table set column1=column1+2;
+
+quit;
+
+sqlplus demo_pdb_admin/password@localhost:1521/demo_pdb
+
+alter system set temp_undo_enabled=true;
+
+show parameter temp_undo_enabled
+
+set autotrace on statistics
+
+insert into my_temp_table(column1,column2) select object_id,object_id from all_objects where rownum < 90001;
+
+update my_temp_table set column1=column1+2;
+
+drop table my_temp_table purge;

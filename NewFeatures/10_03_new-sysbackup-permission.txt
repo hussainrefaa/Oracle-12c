@@ -1,0 +1,34 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+
+this example will create restrict useer can only backup database
+
+sqlplus "/as sysdba"
+
+create user C##BACKUP_DBA identified by password;
+
+grant SYSBACKUP to C##BACKUP_DBA;
+
+quit;
+
+rman
+
+connect target "c##backup_dba/password@orcl as sysbackup"
+ 
+BACKUP DATABASE PLUS ARCHIVELOG;
+
+BACKUP DATABASE demo_pdb;
+
+quit;
+
+-- can not login
+sqlplus C##BACKUP_DBA/password
+
+sqlplus C##BACKUP_DBA/password@localhost:1521/demo_pdb
+

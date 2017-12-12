@@ -1,0 +1,25 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlplus "/as sysdba"
+
+CREATE PLUGGABLE DATABASE demo_pdb 
+ADMIN USER demo_pdb_admin IDENTIFIED BY password
+ROLES = (dba)
+DEFAULT TABLESPACE my_tbs 
+DATAFILE '/oradata/orcl/demo_pdb/mytbs01.dbf' SIZE 50M AUTOEXTEND ON
+FILE_NAME_CONVERT=('/oradata/orcl/pdbseed/','/oradata/orcl/demo_pdb/');
+
+show parameter DB_CREATE_FILE_DEST
+
+alter pluggable database demo_pdb open;
+
+alter session set container=demo_pdb;
+
+grant unlimited tablespace to demo_pdb_admin;
+

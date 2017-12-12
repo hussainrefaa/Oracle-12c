@@ -1,0 +1,43 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+
+export ORACLE_SID=orcl
+
+rman target=/
+
+BACKUP DATABASE PLUS ARCHIVELOG;
+
+BACKUP DATABASE ROOT;
+
+-- one backup
+BACKUP PLUGGABLE DATABASE demo_pdb;
+
+-- multi backup ..
+BACKUP PLUGGABLE DATABASE demo_pdb, salespdb;
+
+quit,
+
+
+rman target=sys/oracle@demo_pdb
+
+backup database;
+
+-- this will get erorr
+backup pluggable database salespdb;
+
+
+
+
+
+
+
+
+
+
+

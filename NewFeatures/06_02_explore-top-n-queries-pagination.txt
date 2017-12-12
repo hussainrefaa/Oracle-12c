@@ -1,0 +1,52 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlplus demo_pdb_admin/password@localhost:1521/demo_pdb
+
+CREATE TABLE top_n_table (col1  NUMBER);
+
+INSERT ALL INTO top_n_table INTO top_n_table  INTO top_n_table
+SELECT level
+FROM   dual
+CONNECT BY level <= 10;
+commit;
+
+select * from top_n_table order by col1; 
+
+select col1
+from test_table
+order by col1 DESC
+FETCH FIRST 5 ROWS ONLY;
+
+select col1
+from top_n_table
+order by col1 DESC
+OFFSET 5 ROWS FETCH NEXT 5 ROWS ONLY;
+
+select col1
+from top_n_table
+order by col1 DESC
+OFFSET 10 ROWS FETCH NEXT 5 ROWS ONLY;
+
+select col1
+from top_n_table
+order by col1 DESC
+FETCH FIRST 25 PERCENT ROWS ONLY;
+
+explain plan for 
+select col1
+from top_n_table
+order by col1 DESC
+FETCH FIRST 5 ROWS ONLY;
+
+set lines 150
+SELECT PLAN_TABLE_OUTPUT FROM TABLE(DBMS_XPLAN.DISPLAY());
+
+drop table top_n_table;
+

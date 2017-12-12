@@ -1,0 +1,28 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlplus "/as sysdba"
+
+alter session set container = demo_pdb;
+
+show parameter max_string_size;
+
+quit;
+conn sys/oracle@localhost:1521/demo_pdb as sysdba
+
+alter pluggable database close;
+alter pluggable database open upgrade;
+
+alter system set max_string_size='EXTENDED' scope=both; 
+
+@$ORACLE_HOME/rdbms/admin/utl32k.sql 
+
+alter pluggable database demo_pdb close;
+alter pluggable database demo_pdb open;
+
+show parameter max_string_size

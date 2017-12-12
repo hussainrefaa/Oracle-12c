@@ -1,0 +1,44 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+
+sqlplus demo_pdb_admin/password@localhost:1521/demo_pdb
+
+
+create table test_table_partial
+(
+  id    NUMBER,
+  data  VARCHAR2(30)
+)
+partition by range(id)
+(
+  partition oldest_data values less than(2),
+  partition old_data values less than(3),
+  partition new_data values less than(4),
+  partition newest_data values less than(10)
+);
+
+INSERT INTO test_table_partial SELECT TRUNC(DBMS_RANDOM.value(1,5)), dbms_random.string('U', 30)
+FROM dual
+CONNECT BY level <= 10000;
+
+alter table test_table_partial modify partition oldest_data indexing off;
+alter table test_table_partial modify partition old_data indexing off;
+alter table test_table_partial modify partition new_data indexing on;
+alter table test_table_partial modify partition newest_data indexing on;
+
+select partition_name pname
+from user_segments
+where segment_name = 'PARTIAL_INDEX_1';
+
+
+
+
+
+
+

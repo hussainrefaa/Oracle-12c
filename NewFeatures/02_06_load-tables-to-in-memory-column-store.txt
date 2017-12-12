@@ -1,0 +1,27 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+ALTER TABLE sales_data INMEMORY;
+
+ALTER TABLE sales_data NO INMEMORY;
+
+ALTER TABLE sales_data INMEMORY NO INMEMORY (sale_id);
+
+CREATE TABLE sales_data_part
+(
+sale_id int,
+sale_date date,
+customer_id varchar(40),
+product_id varchar(10),
+quantity int
+) PARTITION BY RANGE (sale_date)
+(	PARTITION sales_h1_2016 VALUES LESS THAN (TO_DATE('01-JUN-2016','dd-MON-yyyy')) 		NO INMEMORY,
+	PARTITION sales_h2_2016 VALUES LESS THAN (TO_DATE('01-JAN-2017','dd-MON-yyyy')) 		INMEMORY
+);
+
+

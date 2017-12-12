@@ -1,0 +1,45 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+sqlplus demo_pdb_admin/password@localhost:1521/demo_pdb
+
+create sequence s1;
+
+create table test_table
+(col1 int default s1.nextval primary key,
+col2 varchar2(30));
+
+insert into test_table (col2) values ('hello');
+insert into test_table (col2) values ('world!');
+commit;
+
+select * from test_table;
+
+create sequence s2 START WITH 100 INCREMENT BY 10;
+
+create table test_table2
+(col1 int default s2.nextval primary key,
+col2 varchar2(30));
+
+insert into test_table2 (col2) values ('hello');
+insert into test_table2 (col2) values ('world!');
+commit;
+
+select * from test_Table2; 
+insert into test_table2 (col1,col2) values (999,'new row');
+commit;
+select * from test_table2;
+
+Let’s cleanup our environment and move on to the next demo:
+
+drop table test_table;
+drop table test_table2;
+drop sequence s1;
+drop sequence s2;
+
+quit;
