@@ -1,0 +1,9 @@
+sqlplus "/as sysdba"
+
+column property_name format a30
+column property_value format a30
+SELECT PROPERTY_NAME, PROPERTY_VALUE FROM DATABASE_PROPERTIES
+WHERE PROPERTY_NAME = 'LOCAL_UNDO_ENABLED';
+
+select log_mode from v$database;
+

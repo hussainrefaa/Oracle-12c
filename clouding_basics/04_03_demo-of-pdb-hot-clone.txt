@@ -1,0 +1,19 @@
+CREATE PLUGGABLE DATABASE source_pdb
+ADMIN USER source_pdb_admin IDENTIFIED BY password
+ROLES = (dba)
+DEFAULT TABLESPACE my_tbs 
+DATAFILE 'mytbs01.dbf' SIZE 50M AUTOEXTEND ON;
+
+alter pluggable database source_pdb open;
+
+column name format a30
+select con_id, name, open_mode from v$pdbs;
+
+create pluggable database target_pdb from source_pdb;
+
+alter pluggable database target_pdb open;
+
+column name format a30
+select con_id, name, open_mode from v$pdbs;
+
+quit;

@@ -1,0 +1,26 @@
+sqlplus "/as sysdba"
+
+alter session set container = source_pdb;
+
+CREATE table sales (sale_id number, amount number, sale_territory varchar(10));
+
+select partition_name from dba_tab_partitions where table_name = 'SALES';
+
+create index sales_sale_territory_idx on sales (sale_territory);
+
+COLUMN INDEX_NAME FORMAT A30
+select index_name, status, partitioned from dba_indexes where table_name='SALES';
+
+ALTER TABLE sales MODIFY PARTITION BY LIST(sale_territory) 
+(partition p1 values ('USA'), partition p2 values ('EU'),partition p3 values ('ASIA'),
+partition p4 values (DEFAULT)) ONLINE;
+
+select partition_name from dba_tab_partitions where table_name = 'SALES';
+
+COLUMN INDEX_NAME FORMAT A30
+select index_name, status, partitioned from dba_indexes where table_name='SALES';
+ 
+quit;
+
+
+

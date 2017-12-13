@@ -1,0 +1,24 @@
+1. download the zip certificate file while do you cloud register
+2. unzip the file
+# unzip sshkeybundle.zip
+
+3- change security to file:
+# chmod 600 privatekey 
+
+4- install file on server Ip address 129.150.66.213 for example:
+
+# ssh -i privatekey oracle@129.150.66.213
+
+5- to check if oracle running..
+# ps -eaf | grep pmon  
+
+6- # echo $oracle_sid
+ORCL
+
+7- sqlplus "/as sysdba" 
+
+8- sql> select name from v$pdbs;
+
+9- quit
+
+10- lsnrctl status

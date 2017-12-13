@@ -1,0 +1,16 @@
+sqlplus "/as sysdba"
+
+alter session set container=source_pdb;
+
+alter table sales modify partition p1 read only;
+
+insert into sales values (10,100,'USA');
+
+COLUMN PARTITION_NAME FORMAT A30
+select partition_name, read_only from dba_tab_partitions where table_name='SALES';
+
+alter table sales modify partition p1 read write;
+
+insert into sales values (10,100,'USA');
+
+quit;

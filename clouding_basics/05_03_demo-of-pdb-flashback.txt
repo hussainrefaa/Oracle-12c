@@ -1,0 +1,31 @@
+alter session set container=source_pdb;
+
+create table important_table (col1 varchar2(30));
+
+insert into important_table values ('Hello');
+commit;
+
+select dbms_flashback.get_system_change_number from dual;
+
+insert into important_table values ('World');
+Commit;
+
+select dbms_flashback.get_system_change_number from dual;
+
+insert into important_table values ('#Another One!');
+Commit;
+
+select dbms_flashback.get_system_change_number from dual;
+
+select * from important_table;
+
+alter pluggable database source_pdb close immediate;
+
+FLASHBACK PLUGGABLE DATABASE source_pdb TO SCN 
+
+alter pluggable database source_pdb open resetlogs;
+
+select * from important_table;
+
+
+

@@ -1,0 +1,26 @@
+sqlplus "/a sysdba"
+
+alter session set container=source_pdb;
+
+create table sales (sale_id number, amount number, sale_territory varchar(10))
+partition by list (sale_territory) automatic
+(partition p1 values ('USA'));
+
+set lines 150
+column table_name format a7
+column autolist format a30
+select table_name, partitioning_type, autolist, partition_count 
+from dba_part_tables 
+where table_name='SALES';
+
+column partition_name format a30
+select partition_name from dba_tab_partitions where table_name = 'SALES';
+
+insert into sales values (1,100,'EU');
+
+select partition_name from dba_tab_partitions where table_name = 'SALES';
+
+insert into sales values (1,100,'Asia');
+
+select partition_name from dba_tab_partitions where table_name = 'SALES';
+

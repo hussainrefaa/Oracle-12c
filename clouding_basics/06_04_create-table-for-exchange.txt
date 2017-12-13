@@ -1,0 +1,26 @@
+sqlplus "/as sysdba"
+
+alter session set container=source_pdb;
+
+CREATE TABLE sales_part ( 
+sale_id NUMBER(5,0) NOT NULL,
+sale_date DATE NOT NULL,
+sale_amount NUMBER(5,0) NOT NULL,
+sale_region VARCHAR(10) INVISIBLE,
+commission NUMBER(7,2),
+customer_email VARCHAR(30),
+CONSTRAINT chk_commission_lt_100 CHECK (NVL(sale_amount,0) + NVL(commission,0) < 100)
+) 
+PARTITION BY LIST (sale_region) (
+PARTITION p_USA VALUES ('USA'),
+PARTITION p_EUROPE   VALUES ('EU'),
+PARTITION p_ASIA      VALUES ('ASIA'),
+PARTITION p_MEA    VALUES ('MEA')
+);
+
+
+CREATE TABLE sales_exchange FOR EXCHANGE WITH TABLE sales_part;
+
+ALTER TABLE sales_part EXCHANGE PARTITION p_USA WITH TABLE sales_exchange;
+
+quit;

@@ -1,0 +1,4 @@
+http://cloud.oracle.com
+
+account name: cloud4test
+vat number: DE015775148
