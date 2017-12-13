@@ -1,0 +1,33 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+rman target=/
+
+show all;
+
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1;
+
+report obsolete;
+
+delete obsolete;
+
+
+backup pluggable database orcl;
+
+backup pluggable database orcl;
+
+
+report obsolete;
+
+delete obsolete;
+
+
+CONFIGURE RETENTION POLICY TO RECOVERY WINDOW OF 7 DAYS;

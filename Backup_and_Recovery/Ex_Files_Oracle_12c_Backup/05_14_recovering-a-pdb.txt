@@ -1,0 +1,43 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+rman target=/
+
+list backup of database orcl;
+
+quit;
+
+sqlplus system/oracle@localhost:1521/orcl
+
+select file_name from dba_data_files;
+
+quit;
+
+rm <DATAFILE_LOCATION>
+
+sqlplus "/as sysdba"
+
+alter pluggable database orcl close;
+
+-- will casue error
+alter pluggable database orcl open;
+
+quit;
+
+rman target=/
+
+RUN 
+{
+RESTORE PLUGGABLE DATABASE orcl;
+RECOVER PLUGGABLE DATABASE orcl
+ALTER PLUGGABLE DATABASE ORCL open;
+}
+

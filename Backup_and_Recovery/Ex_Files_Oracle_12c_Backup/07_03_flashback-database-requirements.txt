@@ -1,0 +1,78 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+-- enable flash back area
+
+sqlplus "/as sysdba"
+shutdown immidiate;
+startup mount;
+ARCHIVE LOG LIST;
+
+alter database archivelog;
+
+show parameter db_recovery_file_dest
+
+alter database flashback on;
+
+ALTER PLUGGABLE DATABASE ALL OPEN;
+
+
+ALTER DATABASE OPEN;
+
+
+
+-- using-flashback-query
+
+sqlplus system/oracle@localhost:1521/demo_pdb
+
+show parameter undo_retention;
+-- change retention time
+alter system set  undo_retention=9000 scope=both;
+
+
+
+
+CREATE TABLE demo01.flashback_query_test (id NUMBER(10), name VARCHAR(50));
+
+
+INSERT INTO demo01.flashback_query_test VALUES (1, 'Hello World!');
+INSERT INTO demo01.flashback_query_test VALUES (2, 'This is a table row!');
+INSERT INTO demo01.flashback_query_test VALUES (3, '#Another One!');
+COMMIT;
+
+
+SELECT * FROM demo01.flashback_query_test ;
+
+
+SELECT SYSTIMESTAMP FROM dual;
+
+ 
+INSERT INTO demo01.flashback_query_test VALUES (4, 'This is row number 4!');
+INSERT INTO demo01.flashback_query_test VALUES (5, 'And now row number 5');
+INSERT INTO demo01.flashback_query_test VALUES (6, 'And the final one, Row 6!');
+COMMIT;
+
+SELECT * FROM demo01.flashback_query_test ;
+
+ 
+SELECT * FROM demo01.flashback_query_test AS OF TIMESTAMP TO_TIMESTAMP('<REPLACE_WITH_YOUR_TIMESTAMP>');
+
+
+CREATE TABLE demo01.flashback_query_test_OLD_DATA
+AS
+SELECT * FROM demo01.flashback_query_test AS OF TIMESTAMP TO_TIMESTAMP('<REPLACE_WITH_YOUR_TIMESTAMP');
+ 
+
+select * from demo01.flashback_query_test;
+
+
+select * from demo01.flashback_query_test_OLD_DATA;
+

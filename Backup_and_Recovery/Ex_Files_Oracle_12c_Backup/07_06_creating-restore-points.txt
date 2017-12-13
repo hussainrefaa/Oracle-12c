@@ -1,0 +1,47 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus "/as sysdba"
+
+create restore point DB_IS_OK guarantee flashback database;
+
+alter session set container=demo_pdb;
+
+delete from demo01.employees;
+
+drop table demo01.employees2;
+drop table demo01.employees3;
+
+alter session set container=cdb$root;
+shutdown immediate;
+startup mount;
+
+column NAME format a3
+column REST_TIME format a30
+select SCN, NAME, to_char(TIME,'DD-MON-YYYY HH24:MI:SS') as RES_TIME from v$restore_point;
+
+flashback database to restore point DB_IS_OK;
+
+alter database open resetlogs;
+alter pluggable database all open;
+
+alter session set container=demo_pdb;
+
+Select count (*) from demo01.employees
+union all
+Select count (*) from demo01.employees2
+union all
+Select count (*) from demo01.employees3;
+
+alter session set container=cdb$root;
+
+drop restore point db_is_ok;
+

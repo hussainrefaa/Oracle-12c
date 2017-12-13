@@ -1,0 +1,30 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+-- window 1
+expdp system/oracle@localhost:1521/demo_pdb directory=demo_pdb_export_dir01 dumpfile=demo_export_monitoring.dmp logfile=demo_export_monitoring.log full=y
+
+-- window 2
+-- while the command in window1 running, should run the command in the window 2
+sqlplus system/oracle@localhost:1521/demo_pdb
+ 
+column job_name FORMAT A20
+column operation FORMAT A20
+column state FORMAT A20
+select job_name, operation, state from dba_datapump_jobs;
+
+quit;
+
+expdp system/oracle@localhost:1521/demo_pdb attach=SYS_EXPORT_FULL_01
+
+-- we can kill a job using this command
+kill_job
+

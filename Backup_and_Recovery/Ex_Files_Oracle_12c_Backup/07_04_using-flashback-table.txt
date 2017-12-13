@@ -1,0 +1,63 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus system/oracle@localhost:1521/demo_pdb
+
+select file_name from dba_data_files;
+
+CREATE TABLESPACE users DATAFILE '/u01/app/oracle/oradata/orcl12c/demo_pdb/users01.dbf' size 100m autoextend on;
+
+create table demo01.employees (emp_id number(10), emp_name varchar2(50)) tablespace users;
+
+alter table demo01.employees enable row movement;
+
+insert into demo01.employees (emp_id, emp_name) values (1, 'Lewiss Willerstone');
+insert into demo01.employees (emp_id, emp_name) values (2, 'Sabrina Hutable');
+insert into demo01.employees (emp_id, emp_nsame) values (3, 'Silva Collacombe');
+insert into demo01.employees (emp_id, emp_name) values (4, 'Wren Leemans');
+insert into demo01.employees (emp_id, emp_name) values (5, 'Dore Shipp');
+insert into demo01.employees (emp_id, emp_name) values (6, 'Nicolis Spooner');
+insert into demo01.employees (emp_id, emp_name) values (7, 'Gabriel Wrates');
+insert into demo01.employees (emp_id, emp_name) values (8, 'Meta Saylor');
+insert into demo01.employees (emp_id, emp_name) values (9, 'Artie Patria');
+insert into demo01.employees (emp_id, emp_name) values (10, 'Patrizia Shoard');
+
+commit;
+
+insert into demo01.employees  (emp_id, emp_name) values (11, 'Billye Dummett');
+insert into demo01.employees  (emp_id, emp_name) values (12, 'Lorita Cleen');
+insert into demo01.employees  (emp_id, emp_name) values (13, 'Royce Mather');
+insert into demo01.employees  (emp_id, emp_name) values (14, 'Fabio Huitson');
+insert into demo01.employees  (emp_id, emp_name) values (15, 'Killy Darby');
+insert into demo01.employees  (emp_id, emp_name) values (16, 'Farr Robel');
+insert into demo01.employees  (emp_id, emp_name) values (17, 'Lissie Boyall');
+insert into demo01.employees  (emp_id, emp_name) values (18, 'Gannie Leek');
+insert into demo01.employees  (emp_id, emp_name) values (19, 'Batman');
+insert into demo01.employees  (emp_id, emp_name) values (20, 'Superman');
+insert into demo01.employees  (emp_id, emp_name) values (21, 'Wonder Women');
+
+Commit;
+
+select * from demo01.employees;
+
+FLASHBACK TABLE demo01.employees TO TIMESTAMP (SYSTIMESTAMP - INTERVAL '60' second);
+
+show parameter recyclebin;
+
+
+drop table demo01.employees;
+
+
+select * from demo01.employees;
+
+flashback table demo01.employees to before drop;
+
+select * from demo01.employees;

@@ -1,0 +1,58 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle as sysdba
+
+alter session set container=cdb$root;
+
+show con_name
+ 
+CREATE PLUGGABLE DATABASE demo_PDB ADMIN USER pdb_admin IDENTIFIED BY pdb_admin FILE_NAME_CONVERT=('/u01/app/oracle/oradata/orcl12c/pdbseed/','/u01/app/oracle/oradata/orcl12c/demo_pdb/');
+
+ALTER PLUGGABLE DATABASE demo_pdb OPEN;
+
+
+
+
+ALTER SESSION SET CONTAINER=demo_pdb;
+
+CREATE DIRECTORY demo_pdb_export_dir01 AS '/home/oracle';
+
+CREATE USER demo01 IDENTIFIED BY oracle;
+
+GRANT connect, create table, unlimited TABLESPACE to demo01;
+
+
+
+
+CREATE TABLE demo01.my_first_table (col1 number(10), col2 VARCHAR(50));
+
+CREATE INDEX demo01.my_first_table_idx1 ON demo01.my_first_table (col1);
+
+INSERT INTO demo01.my_first_table VALUES (1,'Hello World!');
+COMMIT;
+
+
+
+CREATE VIEW demo01.my_first_view AS select col1+100 as calc_column, 'This is data from the view!' as text FROM my_first_table;
+
+
+
+select * from demo01.my_first_table;
+ 
+select * from demo01.my_first_view;
+
+
+quit;
+
+
+expdp system/oracle@localhost:1521/demo_pdb directory=demo_pdb_export_dir01 dumpfile=demo_full1.dmp full=y
+

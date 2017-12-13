@@ -1,0 +1,64 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+rman target=/
+
+delete noprompt backup of database;
+delete noprompt backup of archivelog all;
+delete noprompt backup of controlfile;
+
+list backup summary;
+
+sql 'alter system archive log current';
+
+RUN
+{
+configure controlfile autobackup on;
+ALLOCATE CHANNEL c1 DEVICE TYPE disk;
+ALLOCATE CHANNEL c2 DEVICE TYPE disk;
+backup database tag DB_FULL format '/home/oracle/DB_BACKUP_%d_%T_%s_%p_FULL' ;
+sql 'alter system archive log current';
+backup tag DB_ARCHIVE format '/home/oracle/%d_%T_%s_%p_ARCHIVE' archivelog all delete all input ;
+backup tag ORCL_CONTROL current controlfile format '/home/oracle/%d_%T_%s_%p_CONTROL';
+release channel c1;
+release channel c2;
+}
+
+quit;
+
+-- create this file
+vi /home/oracle/backup_full.rman
+
+RUN
+{
+configure controlfile autobackup on;
+ALLOCATE CHANNEL c1 DEVICE TYPE disk;
+ALLOCATE CHANNEL c2 DEVICE TYPE disk;
+backup database tag DB_FULL format '/home/oracle/DB_BACKUP_%d_%T_%s_%p_FULL' ;
+sql 'alter system archive log current';
+backup tag DB_ARCHIVE format '/home/oracle/%d_%T_%s_%p_ARCHIVE' archivelog all delete all input ;
+backup tag ORCL_CONTROL current controlfile format '/home/oracle/%d_%T_%s_%p_CONTROL';
+release channel c1;
+release channel c2;
+}
+
+
+rman target=/ @/home/oracle/backup_full.rman
+
+
+rman target=/
+
+
+list backup summary;
+
+
+list backupset XXX;
+

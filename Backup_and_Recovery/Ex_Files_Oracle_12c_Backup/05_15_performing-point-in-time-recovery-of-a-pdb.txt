@@ -1,0 +1,35 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus "/as sysdba"
+
+select TO_CHAR(sysdate,'DD-MON-YYYY HH24:MI:SS') from dual;
+
+quit;
+
+rman target=/
+
+RUN 
+{
+ALTER PLUGGABLE DATABASE orcl CLOSE;
+SET UNTIL TIME "TO_DATE('10-JUL-2017 01:50:28','DD-MON-YYYY HH24:MI:SS')";
+RESTORE PLUGGABLE DATABASE orcl;
+RECOVER PLUGGABLE DATABASE orcl;
+ALTER PLUGGABLE DATABASE orcl OPEN RESETLOGS;
+}
+
+quit;
+-- if there error
+
+sqlplus "/as sysdba"
+
+alter pluggable database orcl open;
+

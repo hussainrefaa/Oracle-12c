@@ -1,0 +1,29 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+rman target=/
+
+backup database plus archivelog;
+
+-- backup root container
+backup database root;
+
+-- backup pluggable database
+backup pluggable database orcl;
+
+quit;
+
+-- to backup individual pdb
+
+rman target=sys/oracle@orcl
+
+backup database plus archivelog;
+
+backup database tag 'DAILY_BACKUP' plus archivelog;
+

@@ -1,0 +1,18 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus "/as sysdba"
+
+show parameter db_recovery_file_dest
+
+alter system set db_recovery_file_dest_size=15g scope=both;
+
+show parameter db_recovery_file_dest

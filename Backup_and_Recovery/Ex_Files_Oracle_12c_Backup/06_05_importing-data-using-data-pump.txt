@@ -1,0 +1,28 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+
+expdp system/oracle@localhost:1521/demo_pdb schemas=demo01 directory=demo_pdb_export_dir01 dumpfile=demo01.dmp
+
+impdp system/oracle@localhost:1521/demo_pdb directory=demo_pdb_export_dir01 dumpfile=demo01.dmp logfile=demo01_IMPORT.log
+
+-- to import data shoul to spcifiec remap_schema parameter
+impdp system/oracle@localhost:1521/demo_pdb directory=demo_pdb_export_dir01 dumpfile=demo01.dmp logfile=demo01_IMPORT.log remap_schema=demo01:demo02
+
+sqlplus system/oracle
+alter session set container=demo_pdb;
+ 
+select * from demo02.my_first_table;
+
+select * from demo01.my_first_table;
+
+
+

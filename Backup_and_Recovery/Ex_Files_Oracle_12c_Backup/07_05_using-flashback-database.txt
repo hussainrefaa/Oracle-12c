@@ -1,0 +1,51 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus "/as sysdba"
+
+alter session set container=demo_pdb;
+
+select * from demo01.employees;
+
+create table demo01.employees2 tablespace users as select * from demo01.employees;
+
+create table demo01.employees3 tablespace users as select * from demo01.employees;
+
+Select count (*) from demo01.employees
+union all Select count (*) from demo01.employees2
+union all Select count (*) from demo01.employees3;
+
+select TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS') from dual;
+
+delete from demo01.employees;
+
+drop table demo01.employees2;
+drop table demo01.employees3;
+
+alter session set container=cdb$root;
+
+shutdown immediate;
+startup mount;
+
+flashback database to timestamp TO_TIMESTAMP('2017-07-15 06:59:17', 'YYYY-MM-DD HH24:MI:SS');
+
+alter database open resetlogs;
+
+alter pluggable database all open;
+
+alter session set container=demo_pdb;
+
+
+Select count (*) from demo01.employees
+union all Select count (*) from demo01.employees2
+union all
+Select count (*) from demo01.employees3;
+

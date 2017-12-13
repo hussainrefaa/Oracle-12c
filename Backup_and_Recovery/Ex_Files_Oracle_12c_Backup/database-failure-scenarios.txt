@@ -1,0 +1,8 @@
+1- Human Failure
+  using flshback recovery
+2- Machin failure
+  using HA(High Avibilaty) Technolgy and Oracle RAC 
+3- Disk failure
+   Using Oracle Rman and hot backup
+4. Data Center failure
+   DR Technolgy or Data Guard	

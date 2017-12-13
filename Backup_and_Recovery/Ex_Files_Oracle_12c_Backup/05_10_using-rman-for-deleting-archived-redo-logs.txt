@@ -1,0 +1,36 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+delete noprompt archivelog like '%' backed up 1 times to device type disk;
+
+backup archivelog all;
+
+delete noprompt archivelog like '%' backed up 1 times to device type disk;
+
+-- delete older 1 day
+delete noprompt archivelog until time 'sysdate-1';
+
+
+quit;
+
+sqlplus "/as sysdba"
+
+-- create 4 archive redo logfile
+alter system switch logfile;
+alter system switch logfile;
+alter system switch logfile;
+alter system switch logfile;
+
+quit;
+
+rman target=/
+
+backup archivelog all delete all input;

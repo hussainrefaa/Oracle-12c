@@ -1,0 +1,28 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus "/as sysdba"
+
+select TO_CHAR(sysdate,'DD-MON-YYYY HH24:MI:SS') from dual;
+
+quit;
+
+rman target=/
+
+RUN 
+{
+SHUTDOWN IMMEDIATE; 
+STARTUP MOUNT;
+SET UNTIL TIME "TO_DATE('10-JUL-2017 12:40:17','DD-MON-YYYY HH24:MI:SS')";
+RESTORE DATABASE;
+RECOVER DATABASE;
+ALTER DATABASE OPEN RESETLOGS;
+}

@@ -1,0 +1,21 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+quit;
+
+export TWO_TASK=
+
+sqlplus "/as sysdba"
+ 
+Alter database backup controlfile to '/home/oracle/control_file_backup.ctl';
+
+ALTER SYSTEM ARCHIVE LOG CURRENT;
+
+SELECT THREAD#,SEQUENCE#,NAME 
+FROM V$ARCHIVED_LOG;
