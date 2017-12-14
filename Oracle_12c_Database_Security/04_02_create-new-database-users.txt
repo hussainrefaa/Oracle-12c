@@ -1,0 +1,29 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+create user user1 identified by secret;
+
+
+exit;
+
+sqlplus user1/secret@orcl
+
+
+sqlplus "/as sysdba"
+
+show con_name
+
+create user c##user2 identified by password;
+
+quit;
+
+sqlplus c##user2/password;

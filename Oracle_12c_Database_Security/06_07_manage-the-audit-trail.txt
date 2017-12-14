@@ -1,0 +1,70 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+
+-- just for one time in second time wil issued errors
+BEGIN
+  DBMS_AUDIT_MGMT.init_cleanup(
+    audit_trail_type         => DBMS_AUDIT_MGMT.AUDIT_TRAIL_ALL,
+    default_cleanup_interval => 12);
+END;
+/
+
+column table_name format a20
+column tablespace_name format a20
+select table_name, tablespace_name from dba_tables where table_name = 'AUD$';
+
+SELECT COUNT(*) FROM aud$;
+
+
+
+BEGIN
+DBMS_AUDIT_MGMT.CLEAN_AUDIT_TRAIL(
+AUDIT_TRAIL_TYPE           =>  DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,
+USE_LAST_ARCH_TIMESTAMP    =>  FALSE,
+CONTAINER                  =>  DBMS_AUDIT_MGMT.CONTAINER_CURRENT );
+END;
+/
+
+
+SELECT COUNT(*) FROM aud$;
+
+select count(*) from DBA_FGA_AUDIT_TRAIL;
+
+
+BEGIN
+DBMS_AUDIT_MGMT.CLEAN_AUDIT_TRAIL(
+AUDIT_TRAIL_TYPE           =>  DBMS_AUDIT_MGMT.AUDIT_TRAIL_FGA_STD,
+USE_LAST_ARCH_TIMESTAMP    =>  FALSE,
+CONTAINER                  =>  DBMS_AUDIT_MGMT.CONTAINER_CURRENT );
+END;
+/
+
+
+select count(*) from DBA_FGA_AUDIT_TRAIL;
+
+
+select count(*) from unified_audit_trail;
+
+
+BEGIN
+DBMS_AUDIT_MGMT.CLEAN_AUDIT_TRAIL(
+AUDIT_TRAIL_TYPE           =>  DBMS_AUDIT_MGMT.AUDIT_TRAIL_UNIFIED,
+USE_LAST_ARCH_TIMESTAMP    =>  FALSE,
+CONTAINER                  =>  DBMS_AUDIT_MGMT.CONTAINER_CURRENT );
+END;
+/
+
+
+select count(*) from unified_audit_trail;
+
+

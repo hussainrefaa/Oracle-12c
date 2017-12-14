@@ -1,0 +1,47 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+AUDIT SELECT TABLE, INSERT TABLE, DELETE TABLE, EXECUTE PROCEDURE BY ACCESS WHENEVER NOT SUCCESSFUL;
+
+audit create session whenever not successful;
+
+
+audit select on user2.my_data;
+
+
+noaudit select on user2.my_data;
+
+
+quit;
+
+sqlplus user1/secret@orcl 
+
+
+select username from dba_users;
+
+quit;
+
+sqlplus user1/not_my_password@orcl 
+
+sqlplus sys/oracle@orcl as sysdba
+
+
+set lines 200
+column username format a30
+column owner format a30
+column OBJ_NAME format a30
+column action_name format a10
+column timestamp format a30
+
+SELECT USERNAME, owner, action_name, OBJ_NAME, timestamp
+FROM DBA_AUDIT_TRAIL where username = 'USER1' ;
+

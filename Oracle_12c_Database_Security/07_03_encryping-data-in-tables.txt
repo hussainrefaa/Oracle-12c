@@ -1,0 +1,49 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus user2/secret@orcl
+
+ALTER TABLE my_data ADD (secret_col1 VARCHAR2(11) ENCRYPT);
+
+
+ALTER TABLE my_data add (col3 VARCHAR2(10));
+
+
+ALTER TABLE my_data MODIFY (col3 ENCRYPT);
+
+
+ALTER TABLE my_data MODIFY (col3 DECRYPT);
+
+
+desc my_data
+
+
+insert into my_data values (1, 'Test Value!', '123456', 'Hello!');
+commit;
+select * from my_data;
+
+
+CREATE TABLE sensitive_data_table (
+first_name varchar2(15),
+last_name varchar2(15),
+salary number(10,10),
+id varchar2(11) ENCRYPT USING '3DES168');
+
+
+ALTER TABLE sensitive_data_table REKEY USING 'AES128';
+
+create index test_idx1 on sensitive_data_table (id);
+
+ALTER TABLE sensitive_data_table MODIFY (id ENCRYPT NO SALT);
+
+create index test_idx1 on sensitive_data_table (id);
+
+quit;

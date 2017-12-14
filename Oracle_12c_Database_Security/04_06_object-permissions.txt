@@ -1,0 +1,78 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+grant create procedure, create view, create table to user2;
+
+alter user user2 quota 1m on users;
+
+quit;
+
+sqlplus user2/secret@orcl
+
+create table my_data (col1 number(10), col2 varchar2(50));
+
+insert into my_data values (1,'Hello!');
+insert into my_data values (2,'World!');
+insert into my_data values (3,'#Another One!');
+commit;
+
+Create or replace view my_data_subset as
+select * from my_data where col1 > 2;
+
+create or replace procedure show_data_proc
+IS
+	v_rec my_data%ROWTYPE;
+Begin
+  	FOR v_rec IN (select col1, col2 from my_data) LOOP       
+   dbms_output.put_line('col1=' || v_rec.col1 || ', col2=' || v_rec.col2);
+   END LOOP;
+
+End;
+/
+
+
+quit;
+
+sqlplus user1/secret@orcl
+
+
+select * from user2.my_data;
+
+select * from user2.my_data_subset;
+
+set serveroutput on
+exec user2.show_data_proc;
+
+quit;
+
+sqlplus sys/oracle@orcl as sysdba
+
+grant select on user2.my_data_subset to user1;
+
+grant execute on user2.show_data_proc to user1;
+
+quit;
+
+sqlplus user1/secret@orcl
+
+select * from user2.my_data_subset;
+
+select * from user2.my_data;
+
+
+set serveroutput on
+exec user2.show_data_proc;
+
+quit;
+
+
+

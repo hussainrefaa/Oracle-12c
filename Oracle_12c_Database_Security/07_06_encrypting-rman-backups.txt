@@ -1,0 +1,36 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+rman target /
+
+-- transparent mode
+set encryption on;
+run
+{
+	allocate channel d1 device type disk;
+	backup pluggable database orcl tag=transparent_encrypted;
+}
+
+
+-- passwrod mode
+set encryption on identified by 'Secret!' only;
+run
+{
+	allocate channel d1 device type disk;
+	backup pluggable database orcl tag=passwrod_encrypted;
+}
+
+-- dual mode
+set encryption on identified by 'Secret!';
+run {
+	allocate channel d1 device type disk;
+	backup pluggable database orcl tag=dual_encrypted;
+}
+

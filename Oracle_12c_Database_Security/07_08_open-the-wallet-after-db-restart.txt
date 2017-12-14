@@ -1,0 +1,33 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle as sysdba
+
+shutdown immediate
+
+startup
+
+alter session set container=orcl;
+
+-- this will issued error
+select * from user2.my_data;
+
+
+alter session set container=cdb$root;
+
+
+administer key management set keystore open identified by secret_keystore_password container=all;
+
+
+alter session set container=orcl;
+
+select * from user2.my_data;
+
+

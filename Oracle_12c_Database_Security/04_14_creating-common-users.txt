@@ -1,0 +1,53 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus system/oracle as sysdba
+
+column username format a20
+column common format a20
+
+select username, con_id, common 
+from cdb_users where username = 'C##DBA_USER';
+
+grant create session to c##dba_user;
+
+quit;
+
+sqlplus c##dba_user/password@localhost:1521/orcl12c
+
+show con_name
+
+quit;
+
+sqlplus c##dba_user/password@localhost:1521/demo_pdb1
+
+sqlplus my_pdb_admin/password@localhost:1521/demo_pdb1
+
+grant create session to c##dba_user;
+
+show con_name
+
+quit;
+
+sqlplus c##dba_user/password@localhost:1521/demo_pdb1
+
+quit;
+
+sqlplus c##dba_user/password@localhost:1521/demo_pdb2
+
+sqlplus sys/oracle as sysdba
+
+show con_name
+
+grant create session to c##dba_user container=all;
+
+quit;
+
+

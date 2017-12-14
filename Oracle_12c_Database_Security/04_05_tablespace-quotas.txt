@@ -1,0 +1,32 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus user1/secret@orcl
+
+insert into new_table values (1,'Hello!');
+
+quit;
+
+sqlplus sys/oracle@orcl as sysdba
+
+alter user user1 quota 1g on users;
+
+grant unlimited tablespace to user1;
+
+quit;
+
+sqlplus user1/secret@orcl
+
+insert into new_table values (1,'Hello!');
+
+commit;
+
+quit;
+

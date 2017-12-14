@@ -1,0 +1,51 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+EXEC DBMS_FGA.ADD_POLICY(object_schema=>'USER2', object_name=>'my_data',policy_name=>'check_col2_access',audit_column=>'col2', statement_types=>'select, update');
+
+set lines 200
+column object_schema format a15
+column object_name format a15
+column policy_name format a20
+column policy_column format a15
+column enabled format a5
+column sel,ins,upd,del  format a5
+
+SET lines 150
+select object_schema,object_name,policy_name,policy_column,enabled,sel,ins,upd,del 
+FROM dba_audit_policies;
+
+
+quit;
+sqlplus user2/secret@orcl
+
+select col1 from my_data;
+select col2 from my_data;
+
+
+quit;
+sqlplus sys/oracle@orcl as sysdba
+
+
+set lines 150
+column date_time format a20
+column db_user format a15
+column object_schema format a15
+column object_name  format a15
+column sql_text format a30
+ 
+SELECT to_char(timestamp, 'DD-MON-YYYY HH24:MI:SS') as date_time, db_user, object_schema, object_name, sql_text 
+from DBA_FGA_AUDIT_TRAIL 
+order by  TIMESTAMP DESC;
+
+
+EXEC DBMS_FGA.DROP_POLICY(object_schema=>'USER2', object_name=>'my_data', policy_name=>'check_col2_access');

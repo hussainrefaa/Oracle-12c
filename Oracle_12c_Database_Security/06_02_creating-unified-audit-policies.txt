@@ -1,0 +1,53 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+
+CREATE AUDIT POLICY audit_policy1 
+PRIVILEGES CREATE TABLE
+WHEN    'SYS_CONTEXT(''USERENV'', ''SESSION_USER'') = ''USER1'''
+EVALUATE PER SESSION
+CONTAINER = CURRENT;
+
+CREATE AUDIT POLICY audit_policy2
+ACTIONS ALL on user2.my_data_subset;
+
+
+
+CREATE AUDIT POLICY audit_policy3
+ACTIONS INSERT on user2.my_data;
+
+
+audit policy audit_policy1;
+audit policy audit_policy2;
+audit policy audit_policy3;
+
+
+noaudit policy audit_policy1;
+
+audit policy audit_policy1;
+
+
+set lines 200
+column audit_option format A20
+column audit_condition format A30
+column object_name format A20
+column object_schema format A20
+
+
+SELECT audit_option, audit_condition, object_schema, object_name
+FROM audit_unified_policies
+WHERE  policy_name in ( 'AUDIT_POLICY1',  'AUDIT_POLICY2', 'AUDIT_POLICY3');
+
+
+alter user user1 identified by secret account unlock;
+alter user user2 identified by secret account unlock;
+quit;

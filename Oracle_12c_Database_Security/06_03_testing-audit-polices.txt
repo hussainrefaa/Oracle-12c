@@ -1,0 +1,26 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus user1/secret@orcl
+
+create table audit_test_table (col1 number(10), col2 varchar2(10));
+
+select * from user2.my_data_subset;
+
+quit;
+sqlplus user2/secret@orcl
+
+insert into my_data values(4,'Audit test!');
+
+commit;
+
+select * from my_data;
+
+quit;

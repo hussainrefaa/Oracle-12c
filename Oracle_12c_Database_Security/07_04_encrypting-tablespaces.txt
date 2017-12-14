@@ -1,0 +1,27 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+CREATE TABLESPACE encrypt_ts
+DATAFILE '$ORACLE_HOME/dbs/encrypt_df01.dbf' SIZE 1M
+ENCRYPTION USING 'AES256'
+DEFAULT STORAGE (ENCRYPT);
+
+
+create table sensitive_data01 (col1 number(10), col2 varchar2(10)) tablespace encrypt_ts;
+
+insert into sensitive_data01 values (1,'Secret');
+Commit;
+select * from sensitive_data01;
+
+select tablespace_name, encrypted
+from dba_tablespaces;
+

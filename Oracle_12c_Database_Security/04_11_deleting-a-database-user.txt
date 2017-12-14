@@ -1,0 +1,47 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+
+create user new_user1 identified by secret;
+create user new_user2 identified by secret;
+
+
+grant create session, create table to new_user1, new_user2;
+
+
+column username format a20
+select username from dba_users where username like 'NEW_%';
+
+quit;
+
+sqlplus new_user2/secret@orcl
+
+create table my_brand_new_table (col1 number(10), col2 varchar2(10));
+
+quit;
+
+sqlplus sys/oracle@orcl as sysdba
+
+drop user new_user1;
+
+column username format a20
+select username from dba_users where username like 'NEW_%';
+
+drop user new_user2;
+
+drop user new_user2 cascade;
+
+column username format a20
+select username from dba_users where username like 'NEW_%';
+
+quit;
+

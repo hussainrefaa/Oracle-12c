@@ -1,0 +1,60 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle as sysdba 
+
+show con_name
+
+CREATE PLUGGABLE DATABASE demo_pdb1 
+ADMIN USER my_pdb_admin IDENTIFIED BY password
+ROLES = (dba)
+FILE_NAME_CONVERT=('/u01/app/oracle/oradata/orcl12c/','/u01/app/oracle/oradata/orcl12c/demo_pdb1/');
+
+
+CREATE PLUGGABLE DATABASE demo_pdb2
+ADMIN USER my_pdb_admin IDENTIFIED BY password
+ROLES = (dba)
+FILE_NAME_CONVERT=('/u01/app/oracle/oradata/orcl12c/','/u01/app/oracle/oradata/orcl12c/demo_pdb2/');
+
+
+alter pluggable database demo_pdb1 open;
+
+alter pluggable database demo_pdb2 open;
+
+quit;
+
+sqlplus my_pdb_admin/password@localhost:1521/demo_pdb1
+
+create user local_user identified by password;
+grant create session, create table, unlimited tablespace to local_user;
+
+
+column username format a20
+column common format a30
+select username, common from dba_users where username = 'LOCAL_USER';
+
+
+quit;
+sqlplus local_user/password@localhost:1521/demo_pdb1
+
+
+quit;
+sqlplus local_user/password@localhost:1521/demo_pdb2
+
+
+sqlplus my_pdb_admin/password@localhost:1521/demo_pdb2
+
+
+column username format a20
+column common format a30
+select username, common from dba_users where username = 'LOCAL_USER';
+
+
+quit;

@@ -1,0 +1,19 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+expdp system/oracle@orcl dumpfile=test01.dmp schemas=user2 encryption=all
+
+expdp system/oracle@orcl dumpfile=test02.dmp schemas=user2 encryption=all encryption_mode=password encryption_password=secret
+
+
+impdp system/oracle@orcl dumpfile=test02.dmp remap_schema=user2:user3
+
+
+impdp system/oracle@orcl dumpfile=test02.dmp remap_schema=user2:user3 encryption_password=secret

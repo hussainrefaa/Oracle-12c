@@ -1,0 +1,29 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+
+
+-- thie will issued error because they need for encrypted passoword
+run {
+	alter pluggable database orcl close;
+	allocate channel d1 device type DISK;
+	restore pluggable database orcl from TAG=passwrod_encrypted;
+	alter pluggable database orcl open;
+}
+
+
+-- this will secuess
+SET DECRYPTION IDENTIFIED BY 'Secret!';
+run {
+	alter pluggable database orcl close;
+	allocate channel d1 device type DISK;
+	restore pluggable database orcl from TAG=passwrod_encrypted;
+	alter pluggable database orcl open;
+}

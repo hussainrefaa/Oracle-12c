@@ -1,0 +1,37 @@
+
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+set lines 200
+column event_date format A30
+column dbusername format A10
+column action_name format A20
+column object_schema format A10
+column object_name format A20
+
+SELECT to_char(event_timestamp, 'DD-MON-YYYY HH24:MI:SS') as event_date, dbusername, action_name, object_schema, object_name
+FROM   unified_audit_trail
+WHERE  dbusername in ('USER1','USER2')
+ORDER BY event_timestamp;
+
+show parameter audit_file_dest
+
+
+quit;
+
+cd /u01/app/oracle/admin/orcl12c/adump
+
+ls -ltr
+
+grep SYSDBA -H  . *
+
+less <<FILE_NAME>>.aud

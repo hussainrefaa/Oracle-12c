@@ -1,0 +1,29 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+
+create role my_new_role;
+
+
+grant select any table, connect to my_new_role;
+
+
+GRANT my_new_role TO user1 WITH ADMIN OPTION;
+
+
+quit;
+
+sqlplus user1/secret@orcl
+
+
+grant my_new_role to user2;
+

@@ -1,0 +1,57 @@
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+column username format a10
+column account_status format a10
+column last_time_login format a30
+column authentication_type format a10
+
+select username, account_status, to_char(last_login,'DD-MM-YY HH24:MI:SS') as last_time_login, authentication_type
+From dba_users;
+
+
+select grantee, privilege from dba_sys_privs where grantee = 'USER2';
+
+
+column grantee format a10
+column table_name format a20
+column privilege format a10
+select grantee, table_name, privilege from dba_tab_privs where grantee = 'USER1';
+
+
+column grantee format a10
+column granted_role format a30
+select grantee, substr(granted_role,1,30) as granted_role from dba_role_privs;
+
+
+column username format a10;
+column profile format a10;
+select substr(username,1,10) as username, substr(profile,1,10) as profile
+from dba_users;
+
+
+column profile format 10
+column resource_name format a30
+column limit format a10
+
+select profile, resource_name, limit 
+from dba_profiles
+where profile = 'DEFAULT';
+
+
+ALTER PROFILE default LIMIT  PASSWORD_VERIFY_FUNCTION ora12c_strong_verify_function;
+
+
+column profile format 10
+column resource_name format a30
+column limit format a10
+
+select profile, resource_name, limit 
+from dba_profiles
+where profile = 'DEFAULT';
+
+
+ALTER PROFILE default LIMIT password_verify_function NULL;
+
+

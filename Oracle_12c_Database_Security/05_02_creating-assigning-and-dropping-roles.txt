@@ -1,0 +1,57 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+create role sales;
+
+grant create session to sales;
+
+
+grant select on user2.my_data to sales;
+
+create user sales_user1 identified by secret;
+
+grant sales to sales_user1;
+
+quit;
+
+sqlplus sales_user1/secret@orcl
+
+select * from user2.my_data;
+
+set serveroutput on
+exec user2.show_data_proc;
+
+quit;
+sqlplus sys/oracle@orcl as sysdba
+
+grant execute on user2.show_data_proc to sales;
+
+
+quit;
+
+sqlplus sales_user1/secret@orcl
+
+set serveroutput on
+exec user2.show_data_proc;
+
+
+quit;
+sqlplus sys/oracle@orcl as sysdba
+
+revoke sales from sales_user1;
+
+grant connect to sales;
+
+drop role sales;
+
+quit;
+

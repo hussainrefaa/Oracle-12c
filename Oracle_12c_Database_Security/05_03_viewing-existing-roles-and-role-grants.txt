@@ -1,0 +1,57 @@
+-- Author: 	Hussain refaa
+-- creation Date: 	2017
+-- Last Updated: 	0000-00-00
+-- Control Number:	xxxx-xxxx-xxxx-xxxx
+-- Version: 	0.0
+-- Phone : +4915775148443
+-- Email: refaa.hussain@gmail.com
+
+export TWO_TASK=
+
+sqlplus sys/oracle@orcl as sysdba
+
+
+column grantee format a20
+column granted_role format a20
+Select grantee, granted_role
+From DBA_ROLE_PRIVS
+order by grantee;
+
+
+column grantee format a20
+column granted_role format a20
+Select grantee, granted_role
+From DBA_ROLE_PRIVS
+where grantee = 'SCOTT';
+
+
+column grantee format a20
+column granted_role format a20
+Select grantee, granted_role
+From DBA_ROLE_PRIVS
+Where granted_role = 'CONNECT';
+
+
+column role format a30
+column owner format a20
+column table_name format a30
+Column privilege format a30
+select role, owner, table_name, PRIVILEGE
+from ROLE_TAB_PRIVS;
+
+column role format a30
+column owner format a20
+column table_name format a30
+Column privilege format a30
+
+select role, privilege
+from ROLE_TAB_PRIVS;
+
+
+column role format a30
+column granted_role format a30
+
+select role, granted_role
+From role_role_privs;
+
+
