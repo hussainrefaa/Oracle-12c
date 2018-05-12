@@ -1,0 +1,57 @@
+
+
+[oracle@oracle admin]$ sqlplus / as sysdba
+
+SQL*Plus: Release 12.1.0.2.0 Production on Tue May 10 12:57:37 2016
+
+Copyright (c) 1991, 2014, Oracle.  All rights reserved.
+
+Connected to: Oracle Database 12c Enterprise Edition Release Version 12.1.0.2.0 - 64bit Production With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> alter system set local_listener='(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))' scope=both;
+
+System altered.
+
+SQL> alter system register;
+
+System altered.
+
+SQL> exit
+-------------------------------------------------------------------------------
+windows-->run-->services.msc--> start OracleOraDB12Home1TNSListener
+C:\Users\hus24> lsnrctl reload
+
+C:\Users\hus24> lsnrctl status
+
+LSNRCTL for 64-bit Windows: Version 12.1.0.2.0 - Production on 12-MAI-2018 20:07:52
+
+Copyright (c) 1991, 2014, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for 64-bit Windows: Version 12.1.0.2.0 - Production
+Start Date                12-MAI-2018 20:00:05
+Uptime                    0 days 0 hr. 7 min. 50 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   D:\app\product\12.1.0\dbhome_1\network\admin\listener.ora
+Listener Log File         D:\app\diag\tnslsnr\DESKTOP-7KO113Q\listener\alert\log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1521ipc)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=DESKTOP-7KO113Q)(PORT=5500))(Security=(my_wallet_directory=D:\APP\admin\orcl\xdb_wallet))(Presentation=HTTP)(Session=RAW))
+Services Summary...
+Service "CLRExtProc" has 1 instance(s).
+  Instance "CLRExtProc", status UNKNOWN, has 1 handler(s) for this service...
+Service "orcl" has 1 instance(s).
+  Instance "orcl", status READY, has 1 handler(s) for this service...
+Service "orclXDB" has 1 instance(s).
+  Instance "orcl", status READY, has 1 handler(s) for this service...
+Service "pdborcl" has 1 instance(s).
+  Instance "orcl", status READY, has 1 handler(s) for this service...
+The command completed successfully
+
+C:\Users\hus24>
