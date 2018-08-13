@@ -1,0 +1,240 @@
+
+In easy words, RMAN metadata is stored in a different database instead of the control file. That database works as a repository.
+
+Recovery catalog and data guard :
+
+Use of the RMAN recovery catalog permits backups taken on one database server to be restored to another database server.
+RMAN uses the recovery catalog transparently for all physical standby database associated with a primary database.
+We should use the different database server to use for recovery catalog so we can use it efficiently in case of any disaster at any site in the Data Guard configuration does not affect the ability to recover from the latest
+backups.
+Now let us see a creation of recovery catalog.
+
+We can create the recovery catalog in three easy steps.
+
+Configure the recovery catalog database.
+Create recovery catalog owner user
+Create recovery catalog
+Configure recovery catalog database : 
+
+We can create a database using dbca or we can use an existing database.
+
+I am using demo database for recovery catalog.
+
+SQL> select name,open_mode from v$database;
+ 
+NAME      OPEN_MODE
+--------- --------------------
+DEMO      READ WRITE
+
+Create recovery catalog owner user :
+
+Here I am creating the specific tablespace for recover catalog owner and granting unlimited quota to that user.
+
+Creating tablespace
+
+SQL> create tablespace ctl datafile '/u01/oracle/oradata/demo/ctl.dbf' size 200m;
+Tablespace created.
+SQL>
+
+SQL> create tablespace ctl datafile '/u01/oracle/oradata/demo/ctl.dbf' size 200m;
+Tablespace created.
+SQL>
+
+2. Creating user
+
+
+SQL> create user ctl_db identified by ctl_db default tablespace ctl quota unlimited on ctl;
+User created.
+
+3. Oracle have special grant ‘recovery_catalog_owner’ for recovery catalog owner.
+
+
+SQL> grant recovery_catalog_owner to ctl_db;
+Grant succeeded.
+
+Create recovery catalog :
+
+4. connect with RMAN with catalog keyword
+
+
+[oracle@localhost admin]$ rman catalog ctl_db/ctl_db@demo
+Recovery Manager: Release 11.2.0.4.0 - Production on Wed May 23 23:39:58 2018
+Copyright (c) 1982, 2011, Oracle and/or its affiliates.  All rights reserved.
+connected to recovery catalog database
+
+5. create the catalog using create catalog command.
+
+RMAN> create catalog;
+recovery catalog created
+
+Register database :
+
+6. Register the primary database with the recovery catalog.
+RMAN> connect target sys/oracle@testdb
+
+7. Register database using register database command.
+
+
+
+RMAN> register database;
+
+database registered in recovery catalog
+starting full resync of recovery catalog
+full resync complete
+
+RMAN> register database;
+ 
+database registered in recovery catalog
+starting full resync of recovery catalog
+full resync complete
+
+Check details of the primary database using report schema command.
+
+RMAN> report schema;
+ 
+Report of database schema for database with db_unique_name TESTDB
+ 
+List of Permanent Datafiles
+===========================
+File Size(MB) Tablespace           RB segs Datafile Name
+---- -------- -------------------- ------- ------------------------
+1    740      SYSTEM               YES     /u01/oracle/oradata/testdb/system01.dbf
+2    540      SYSAUX               NO      /u01/oracle/oradata/testdb/sysaux01.dbf
+3    50       UNDOTBS1             YES     /u01/oracle/oradata/testdb/undotbs01.dbf
+4    5        USERS                NO      /u01/oracle/oradata/testdb/users01.dbf
+ 
+List of Temporary Files
+=======================
+File Size(MB) Tablespace           Maxsize(MB) Tempfile Name
+---- -------- -------------------- ----------- --------------------
+1    20       TEMP                 32767       /u01/oracle/oradata/testdb/temp01.dbf
+
+Setting RMAN Persistent Configuration setting 
+
+We can use for db_unique_name clause to set a persistent setting in data guard environment.
+
+Even we don’t need to connect to a primary database or physical standby database as a target.
+
+We can use set dbid clause in RMAN session so that you can configure standby database when RMAN is not connected to a target to a database in data guard environment.
+
+RMAN must be connected to the recovery catalog when we create or alter any configuration data guard environment.
+
+For example
+
+
+RMAN> set dbid 2756866105
+
+executing command: SET DBID
+database name is "TESTDB" and DBID is 2756866105
+
+RMAN> configure controlfile autobackup on for db_unique_name testdb ;
+
+old RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+new RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+new RMAN configuration parameters are successfully stored
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+RMAN> set dbid 2756866105
+ 
+executing command: SET DBID
+database name is "TESTDB" and DBID is 2756866105
+ 
+RMAN> configure controlfile autobackup on for db_unique_name testdb ;
+ 
+old RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+new RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+new RMAN configuration parameters are successfully stored
+
+Setting RMAN Persistent Configuration setting for Primary Database
+
+We can use the recovery catalog to set persistent configuration setting for the primary database.
+
+1- We can specify deletion policy for archive log.
+
+RMAN> configure archivelog deletion policy to applied on all standby;
+ 
+new RMAN configuration parameters:
+CONFIGURE ARCHIVELOG DELETION POLICY TO APPLIED ON ALL STANDBY;
+new RMAN configuration parameters are successfully stored
+starting full resync of recovery catalog
+full resync complete
+
+2. Configure connect identifier for primary database and standby database
+
+
+
+
+
+RMAN> configure db_unique_name std_testdb connect identifier 'std_testdb';
+
+old RMAN configuration parameters:
+CONFIGURE DB_UNIQUE_NAME 'std_testdb' CONNECT IDENTIFIER  'std_testdb';
+new RMAN configuration parameters:
+CONFIGURE DB_UNIQUE_NAME 'std_testdb' CONNECT IDENTIFIER  'std_testdb';
+new RMAN configuration parameters are successfully stored
+starting full resync of recovery catalog
+full resync complete
+
+RMAN> configure db_unique_name testdb connect identifier 'testdb';
+
+new RMAN configuration parameters:
+CONFIGURE DB_UNIQUE_NAME 'testdb' CONNECT IDENTIFIER  'testdb';
+new RMAN configuration parameters are successfully stored
+starting full resync of recovery catalog
+full resync complete
+
+RMAN>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+RMAN> configure db_unique_name std_testdb connect identifier 'std_testdb';
+
+old RMAN configuration parameters:
+CONFIGURE DB_UNIQUE_NAME 'std_testdb' CONNECT IDENTIFIER  'std_testdb';
+new RMAN configuration parameters:
+CONFIGURE DB_UNIQUE_NAME 'std_testdb' CONNECT IDENTIFIER  'std_testdb';
+new RMAN configuration parameters are successfully stored
+starting full resync of recovery catalog
+full resync complete
+ 
+RMAN> configure db_unique_name testdb connect identifier 'testdb';
+ 
+new RMAN configuration parameters:
+CONFIGURE DB_UNIQUE_NAME 'testdb' CONNECT IDENTIFIER  'testdb';
+new RMAN configuration parameters are successfully stored
+starting full resync of recovery catalog
+full resync complete
+ 
+RMAN>
+
+
