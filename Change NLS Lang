@@ -1,0 +1,16 @@
+
+######################################################################
+######  NLS_LANG FAQ
+######  https://www.oracle.com/technetwork/database/database-technologies/globalization/nls-lang-099431.html#_Toc110410556
+######################################################################
+
+## use this steps to change the NLS_LANG in windows
+
+
+1- system varaible 
+C:\> chcp
+
+Active code page: 437
+
+C:\> set NLS_LANG=american_america.US8PC437
+
