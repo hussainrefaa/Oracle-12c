@@ -23,10 +23,13 @@ quota unlimited on system
 
 
 #############################################################
+
+### set session to pluggable database
 alter session set container = PDBORCL;
 
 connect sys/oracle as sysdba
 
+### set session to pluggable database
 alter session set container = PDBORCL;
 
 create user user_name identified by user_password default tablespace
