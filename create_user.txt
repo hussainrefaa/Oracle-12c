@@ -20,3 +20,20 @@ alter user c##scott
 quota unlimited on users
 quota unlimited on system
  /
+
+
+#############################################################
+alter session set container = PDBORCL;
+
+connect sys/oracle as sysdba
+
+alter session set container = PDBORCL;
+
+create user user_name identified by user_password default tablespace
+  users temporary tablespace temp;
+
+grant create session, create table, create procedure,
+  create sequence, create view, create public synonym,
+  drop public synonym to utp;
+
+alter user utp quota unlimited on users;
